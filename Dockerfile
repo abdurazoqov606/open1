@@ -1,7 +1,7 @@
 # Asosiy Python tizimi
 FROM python:3.10-slim
 
-# Linux uchun kerakli kutubxonalar va Chromium brauzerini o'rnatish
+# Linux uchun kerakli kutubxonalar va brauzerni o'rnatish
 RUN apt-get update && apt-get install -y \
     chromium \
     chromium-driver \
@@ -11,13 +11,18 @@ RUN apt-get update && apt-get install -y \
     libfontconfig1 \
     wget \
     gnupg \
+    gcc \
+    python3-dev \
     && rm -rf /var/lib/apt/lists/*
 
 # Ishchi papkani yaratish
 WORKDIR /app
 
-# Kutubxonalar ro'yxatini ko'chirish va o'rnatish
+# Kutubxonalar ro'yxatini ko'chirish
 COPY requirements.txt .
+
+# pip'ni yangilash va kutubxonalarni o'rnatish (XATONI OLDINI OLISH UCHUN)
+RUN pip install --upgrade pip
 RUN pip install --no-cache-dir -r requirements.txt
 
 # Asosiy kodni ko'chirish
